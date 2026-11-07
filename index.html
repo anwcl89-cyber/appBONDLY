@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="id"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BONDLY — Platform Resmi Zenhosta</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==========================================================================
+           PURE CSS ENGINE FOR ZENHOSTA HTML EDITOR (NO EXTERNAL TAILWIND DEPENDENCY)
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-cream: #FFF9E6;
+            --bg-buttercream: #FFF1D6;
+            --bg-buttercream-light: #FFF8EE;
+            --color-walnut: #5E442E;
+            --color-walnut-light: #7C5C41;
+            --color-accent: #FCD34D;
+            --color-emerald: #10B981;
+            --color-rose: #F43F5E;
+            --color-sky: #0EA5E9;
+            --color-purple: #8B5CF6;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-full: 9999px;
+            --shadow-soft: 0 10px 30px rgba(94, 68, 46, 0.08);
+            --shadow-hover: 0 16px 35px rgba(94, 68, 46, 0.14);
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--color-walnut);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: radial-gradient(#EAD5BE 1.2px, transparent 1.2px);
+            background-size: 24px 24px;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Fredoka', cursive;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select, textarea {
+            font-family: inherit;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER & NAVBAR */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--bg-buttercream);
+            box-shadow: 0 4px 20px rgba(94, 68, 46, 0.04);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 76px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            background-color: var(--bg-buttercream);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(94, 68, 46, 0.1);
+        }
+
+        .brand-logo svg {
+            width: 34px;
+            height: 34px;
+        }
+
+        .brand-text h1 {
+            font-size: 22px;
+            color: var(--color-walnut);
+            line-height: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-text span {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--color-walnut-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background-color: rgba(255, 241, 214, 0.5);
+            padding: 6px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--bg-buttercream);
+        }
+
+        .nav-link {
+            border: none;
+            background: transparent;
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-walnut);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: #FFFFFF;
+            box-shadow: 0 2px 8px rgba(94, 68, 46, 0.08);
+            color: #854D0E;
+        }
+
+        .hamburger-btn {
+            display: none;
+            background: var(--bg-buttercream);
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            color: var(--color-walnut);
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* PAGE SECTIONS */
+        .page-section {
+            display: none;
+            padding: 32px 0 60px 0;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* HERO CARD */
+        .hero-card {
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFF8EE 50%, #FFE5EC 100%);
+            border: 1px solid var(--bg-buttercream);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #FFFFFF;
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--color-walnut);
+            border: 1px solid var(--bg-buttercream);
+            margin-bottom: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-emerald);
+            border-radius: 50%;
+        }
+
+        .hero-title {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--color-walnut);
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero-title span {
+            color: #854D0E;
+            text-decoration: underline;
+            text-decoration-color: var(--color-accent);
+            text-decoration-thickness: 4px;
+        }
+
+        .hero-desc {
+            font-size: 16px;
+            color: var(--color-walnut-light);
+            margin-bottom: 24px;
+        }
+
+        .hero-box {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-left: 4px solid #D97706;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: var(--color-walnut);
+            color: #FFFFFF;
+            border: none;
+            padding: 14px 28px;
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(94, 68, 46, 0.2);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background-color: var(--color-walnut-light);
+        }
+
+        .btn-secondary {
+            background-color: #FFFFFF;
+            color: var(--color-walnut);
+            border: 1px solid rgba(94, 68, 46, 0.2);
+            padding: 14px 28px;
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-buttercream);
+        }
+
+        /* SVG MASCOT STRICTLY BOUNDED SIZE */
+        .mascot-container {
+            width: 260px;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mascot-svg {
+            width: 100%;
+            height: 100%;
+            max-width: 240px;
+            max-height: 240px;
+            filter: drop-shadow(0 12px 24px rgba(94, 68, 46, 0.15));
+        }
+
+        /* GRID SYSTEM */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .card {
+            background: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--bg-buttercream);
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .icon-shape {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .bg-amber { background: #FEF3C7; color: #B45309; }
+        .bg-emerald { background: #D1FAE5; color: #047857; }
+        .bg-sky { background: #E0F2FE; color: #0369A1; }
+        .bg-rose { background: #FFE4E6; color: #BE123C; }
+        .bg-purple { background: #F3E8FF; color: #6D28D9; }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-walnut);
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: var(--color-walnut-light);
+            line-height: 1.5;
+        }
+
+        /* FORM STYLING */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            color: var(--color-walnut);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--bg-buttercream);
+            background-color: var(--bg-buttercream-light);
+            font-size: 14px;
+            color: var(--color-walnut);
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--color-walnut);
+            background-color: #FFFFFF;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #FFFFFF;
+            border-top: 1px solid var(--bg-buttercream);
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background-color: var(--bg-buttercream-light);
+            color: var(--color-walnut);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .social-btn:hover {
+            background-color: var(--color-walnut);
+            color: #FFFFFF;
+        }
+
+        /* SIDEBAR MOBILE */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            background-color: #FFFFFF;
+            z-index: 200;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+            transition: left 0.3s ease;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mobile-sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(94, 68, 46, 0.4);
+            z-index: 150;
+            display: none;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .sidebar-link {
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: none;
+            background: transparent;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-walnut);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-link:hover {
+            background-color: var(--bg-buttercream);
+        }
+
+        /* RESPONSIVE BREAKPOINTS */
+        @media (max-width: 992px) {
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .hero-card { flex-direction: column; text-align: center; padding: 28px; }
+            .hero-title { font-size: 32px; }
+            .btn-group { justify-content: center; }
+            .desktop-nav { display: none; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
+        }
+
+        @media (max-width: 640px) {
+            .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr; }
+            .hero-title { font-size: 26px; }
+            .mascot-container { width: 180px; height: 180px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MOBILE SIDEBAR OVERLAY -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <!-- MOBILE NAVIGATION SIDEBAR -->
+    <aside id="mobileSidebar" class="mobile-sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div class="brand">
+                <div class="brand-logo">
+                    <svg viewBox="0 0 100 100">
+                        <ellipse cx="50" cy="55" rx="35" ry="30" fill="#FFFFFF" stroke="#5E442E" stroke-width="4"></ellipse>
+                        <circle cx="38" cy="50" r="3.5" fill="#5E442E"></circle>
+                        <circle cx="62" cy="50" r="3.5" fill="#5E442E"></circle>
+                        <path d="M 45 58 Q 50 62 55 58" fill="transparent" stroke="#5E442E" stroke-width="3.5" stroke-linecap="round"></path>
+                        <path d="M 20 48 C 15 35 30 25 50 28 C 70 25 85 35 80 48" fill="#FCD34D" stroke="#5E442E" stroke-width="3"></path>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>BONDLY</h1>
+                    <span>Help Center</span>
+                </div>
+            </div>
+            <button onclick="closeSidebar()" style="border:none; background:none; font-size: 20px; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <button class="sidebar-link" onclick="navigateTo('home')"><i class="fa-solid fa-house" style="color:#B45309;"></i> Beranda</button>
+        <button class="sidebar-link" onclick="navigateTo('about')"><i class="fa-solid fa-heart" style="color:#BE123C;"></i> Tentang BONDLY</button>
+        <button class="sidebar-link" onclick="navigateTo('safety')"><i class="fa-solid fa-shield-halved" style="color:#047857;"></i> Keamanan &amp; Legal</button>
+        <button class="sidebar-link" onclick="navigateTo('features')"><i class="fa-solid fa-shapes" style="color:#0369A1;"></i> Panduan Fitur</button>
+        <button class="sidebar-link" onclick="navigateTo('download')"><i class="fa-solid fa-download" style="color:#6D28D9;"></i> Unduh BONDLY</button>
+        <button class="sidebar-link" onclick="navigateTo('help')"><i class="fa-solid fa-headset" style="color:#D97706;"></i> Bantuan &amp; Pengaduan</button>
+    </aside>
+
+    <!-- HEADER NAVIGATION -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="brand" onclick="navigateTo('home')">
+                    <button class="hamburger-btn" onclick="openSidebar(); event.stopPropagation();"><i class="fa-solid fa-bars"></i></button>
+                    <div class="brand-logo">
+                        <svg viewBox="0 0 100 100">
+                            <ellipse cx="50" cy="55" rx="35" ry="30" fill="#FFFFFF" stroke="#5E442E" stroke-width="4"></ellipse>
+                            <circle cx="38" cy="50" r="3.5" fill="#5E442E"></circle>
+                            <circle cx="62" cy="50" r="3.5" fill="#5E442E"></circle>
+                            <path d="M 45 58 Q 50 62 55 58" fill="transparent" stroke="#5E442E" stroke-width="3.5" stroke-linecap="round"></path>
+                            <path d="M 20 48 C 15 35 30 25 50 28 C 70 25 85 35 80 48" fill="#FCD34D" stroke="#5E442E" stroke-width="3"></path>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <h1>BONDLY</h1>
+                        <span>Help Center</span>
+                    </div>
+                </div>
+
+                <!-- DESKTOP NAV -->
+                <nav class="desktop-nav">
+                    <button class="nav-link active" onclick="navigateTo('home')" data-target="home">Beranda</button>
+                    <button class="nav-link" onclick="navigateTo('about')" data-target="about">Tentang Kami</button>
+                    <button class="nav-link" onclick="navigateTo('safety')" data-target="safety">Keamanan &amp; Privacy</button>
+                    <button class="nav-link" onclick="navigateTo('features')" data-target="features">Fitur</button>
+                    <button class="nav-link" onclick="navigateTo('download')" data-target="download">Unduh APK</button>
+                    <button class="nav-link" onclick="navigateTo('help')" data-target="help">Pengaduan</button>
+                </nav>
+
+                <button class="btn-primary" onclick="navigateTo('download')" style="padding: 10px 20px; font-size: 12px;">
+                    <i class="fa-solid fa-download" style="color:var(--color-accent);"></i> Get App
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT SECTIONS -->
+    <main class="container">
+
+        <!-- 1. HOME SECTION -->
+        <section id="sec-home" class="page-section active">
+            <div class="hero-card">
+                <div class="hero-content">
+                    <div class="badge-pill">
+                        <span class="badge-dot"></span>
+                        Teman Emosional Berbasis AI Remaja
+                    </div>
+                    <h1 class="hero-title">
+                        Welcome to <span>BONDLY</span> Help Center!
+                    </h1>
+                    <p class="hero-desc">
+                        <strong>BONDLY (Bond + Daily)</strong> adalah aplikasi pendamping emosional berbasis Artificial Intelligence (AI) yang dirancang untuk membantu remaja mengenali emosi, melakukan refleksi diri, memahami stres, dan mengelola aktivitas sehari-hari.
+                    </p>
+                    <div class="hero-box">
+                        Melalui interaksi yang adaptif dan personal, BONDLY menyediakan ruang digital untuk mengekspresikan perasaan dan memperoleh edukasi emosional. Salah satu fitur unggulannya, <strong>ParentStyle</strong>, memungkinkan pengguna mengatur gaya komunikasi bernuansa Ayah atau Ibu.
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn-primary" onclick="navigateTo('download')">
+                            <i class="fa-solid fa-cloud-arrow-down" style="color:var(--color-accent);"></i> Download Application
+                        </button>
+                        <button class="btn-secondary" onclick="navigateTo('features')">
+                            Explore Features <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- MASCOT SVG -->
+                <div class="mascot-container">
+                    <svg viewBox="0 0 300 320" class="mascot-svg">
+                        <ellipse cx="150" cy="170" rx="95" ry="85" fill="#FFFFFF" stroke="#5E442E" stroke-width="8"></ellipse>
+                        <ellipse cx="90" cy="170" rx="14" ry="9" fill="#FFB4A2" opacity="0.8"></ellipse>
+                        <ellipse cx="210" cy="170" rx="14" ry="9" fill="#FFB4A2" opacity="0.8"></ellipse>
+                        <path d="M 100 150 Q 115 135 130 150" fill="none" stroke="#5E442E" stroke-width="8" stroke-linecap="round"></path>
+                        <path d="M 170 150 Q 185 135 200 150" fill="none" stroke="#5E442E" stroke-width="8" stroke-linecap="round"></path>
+                        <path d="M 135 175 Q 150 190 165 175" fill="none" stroke="#5E442E" stroke-width="7" stroke-linecap="round"></path>
+                        <path d="M 65 180 C 65 210 235 210 235 180 C 240 225 60 225 65 180 Z" fill="#FCD34D" stroke="#5E442E" stroke-width="7"></path>
+                        <ellipse cx="105" cy="210" rx="20" ry="14" fill="#FFFFFF" stroke="#5E442E" stroke-width="7" transform="rotate(-20 105 210)"></ellipse>
+                        <ellipse cx="195" cy="210" rx="20" ry="14" fill="#FFFFFF" stroke="#5E442E" stroke-width="7" transform="rotate(20 195 210)"></ellipse>
+                        <path d="M 150 185 C 135 160 100 175 150 225 C 200 175 165 160 150 185 Z" fill="#A8E0BE" stroke="#5E442E" stroke-width="7"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 24px;">
+                <div class="card">
+                    <div class="icon-shape bg-sky"><i class="fa-solid fa-compass"></i></div>
+                    <h3 class="card-title">Our Purpose</h3>
+                    <p class="card-desc">Mendukung remaja agar lebih mengenali diri, memahami emosi, dan menjalani keseharian dengan lebih terarah.</p>
+                </div>
+                <div class="card" style="background: linear-gradient(135deg, var(--color-walnut), var(--color-walnut-light)); color: white;">
+                    <div class="icon-shape" style="background: rgba(255,255,255,0.2); color: var(--color-accent);"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h3 class="card-title" style="color:white;">BONDLY Motto</h3>
+                    <p style="font-size: 18px; font-weight: 700; color: #FFF1D6;">“BONDLY is here to support your daily journey, one feeling at a time.”</p>
+                </div>
+            </div>
+
+            <div class="card" style="text-align: center;">
+                <h3 class="card-title" style="margin-bottom: 20px;">Jelajahi Pusat Bantuan BONDLY</h3>
+                <div class="grid-4">
+                    <button onclick="navigateTo('about')" class="card" style="padding: 16px; background: var(--bg-buttercream-light); border: none; cursor: pointer;">
+                        <i class="fa-solid fa-book-open" style="font-size: 24px; color: #B45309; margin-bottom: 8px;"></i>
+                        <div style="font-size: 13px; font-weight: 700; color: var(--color-walnut);">Tentang Kami</div>
+                    </button>
+                    <button onclick="navigateTo('features')" class="card" style="padding: 16px; background: var(--bg-buttercream-light); border: none; cursor: pointer;">
+                        <i class="fa-solid fa-star" style="font-size: 24px; color: #0369A1; margin-bottom: 8px;"></i>
+                        <div style="font-size: 13px; font-weight: 700; color: var(--color-walnut);">14 Fitur Unggulan</div>
+                    </button>
+                    <button onclick="navigateTo('safety')" class="card" style="padding: 16px; background: var(--bg-buttercream-light); border: none; cursor: pointer;">
+                        <i class="fa-solid fa-shield" style="font-size: 24px; color: #047857; margin-bottom: 8px;"></i>
+                        <div style="font-size: 13px; font-weight: 700; color: var(--color-walnut);">Keamanan Data</div>
+                    </button>
+                    <button onclick="navigateTo('help')" class="card" style="padding: 16px; background: var(--bg-buttercream-light); border: none; cursor: pointer;">
+                        <i class="fa-solid fa-headset" style="font-size: 24px; color: #BE123C; margin-bottom: 8px;"></i>
+                        <div style="font-size: 13px; font-weight: 700; color: var(--color-walnut);">Kontak Support</div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ABOUT SECTION -->
+        <section id="sec-about" class="page-section">
+            <div style="text-align:center; margin-bottom: 32px;">
+                <span class="badge-pill">Latar Belakang &amp; Visi</span>
+                <h1 class="hero-title" style="font-size:36px;">About BONDLY</h1>
+                <p class="hero-desc">Mengenal lebih dekat motivasi dan komitmen riset di balik lahirnya BONDLY.</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h2 class="card-title" style="font-size:22px; display:flex; align-items:center; gap:10px;">
+                        <i class="fa-solid fa-seedling" style="color:var(--color-emerald);"></i> Latar Belakang
+                    </h2>
+                    <p class="card-desc" style="font-size:14px; margin-top:12px;">
+                        Masa remaja merupakan fase krusial pertumbuhan emosional dan psikologis. Di tengah dinamika akademis, sosial, dan keluarga, remaja memerlukan wadah aman untuk mengekspresikan diri tanpa takut dihakimi. BONDLY lahir dari riset mendalam mengenai pentingnya resiliensi emosional.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title" style="font-size:22px; display:flex; align-items:center; gap:10px;">
+                        <i class="fa-solid fa-bullseye" style="color:var(--color-rose);"></i> Visi &amp; Misi
+                    </h2>
+                    <p class="card-desc" style="font-size:14px; margin-top:12px;">
+                        <strong>Visi:</strong> Menjadi platform AI pendamping emosional terdepan yang menciptakan generasi remaja beresiliensi tinggi, sadar emosi, dan sehat secara mental.
+                        <br><br>
+                        <strong>Misi:</strong> Menyediakan teknologi AI yang etis, aman, serta menghadirkan alat refleksi harian dan edukasi stres berbasis bukti ilmiah.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SAFETY SECTION -->
+        <section id="sec-safety" class="page-section">
+            <div class="card" style="margin-bottom:24px;">
+                <span class="badge-pill" style="background:#D1FAE5; color:#047857;">Keamanan &amp; Legalitas</span>
+                <h1 class="hero-title" style="font-size:32px; margin-top:8px;">Safety, Privacy &amp; Legal Foundation</h1>
+                <p class="hero-desc">
+                    Perlindungan pengguna menjadi salah satu prinsip utama dalam pengembangan BONDLY, menjamin keamanan informasi dan kepatuhan hukum di Indonesia.
+                </p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <span class="badge-pill">UU No. 27 Tahun 2022</span>
+                    <h3 class="card-title">Pelindungan Data Pribadi (UU PDP)</h3>
+                    <p class="card-desc">Mengatur perlindungan data pribadi anak. Pemrosesan data pribadi anak wajib dilakukan secara khusus dan memperoleh persetujuan orang tua/wali.</p>
+                </div>
+
+                <div class="card">
+                    <span class="badge-pill">PP No. 17 Tahun 2025</span>
+                    <h3 class="card-title">Tata Kelola PSE Pelindungan Anak</h3>
+                    <p class="card-desc">Mengatur kewajiban perlindungan anak dalam penggunaan sistem elektronik, verifikasi usia, dan mekanisme pengaduan.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. FEATURES SECTION -->
+        <section id="sec-features" class="page-section">
+            <div style="text-align:center; margin-bottom: 32px;">
+                <h1 class="hero-title" style="font-size:36px;">14 Fitur Unggulan BONDLY</h1>
+                <p class="hero-desc">Ekosistem lengkap yang siap mendampingi keseharian dan emosi pengguna.</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="card"><div class="icon-shape bg-amber"><i class="fa-solid fa-people-roof"></i></div><h3 class="card-title">1. ParentStyle</h3><p class="card-desc">Personalisasi interaksi AI terinspirasi gaya komunikasi Ayah/Ibu.</p></div>
+                <div class="card"><div class="icon-shape bg-sky"><i class="fa-solid fa-comments"></i></div><h3 class="card-title">2. BondTalk</h3><p class="card-desc">Percakapan teks interaktif untuk refleksi emosi dan berdiskusi harian.</p></div>
+                <div class="card"><div class="icon-shape bg-purple"><i class="fa-solid fa-microphone"></i></div><h3 class="card-title">3. BondVoice</h3><p class="card-desc">Interaksi suara langsung untuk komunikasi personal.</p></div>
+                <div class="card"><div class="icon-shape bg-rose"><i class="fa-solid fa-face-smile"></i></div><h3 class="card-title">4. MoodBond</h3><p class="card-desc">Pencatatan dan pemantauan dinamika perasaan pengguna secara visual.</p></div>
+                <div class="card"><div class="icon-shape bg-emerald"><i class="fa-solid fa-book"></i></div><h3 class="card-title">5. BondJournal</h3><p class="card-desc">Jurnal pribadi terenkripsi untuk menyimpan refleksi dan pemikiran penting.</p></div>
+                <div class="card"><div class="icon-shape bg-amber"><i class="fa-solid fa-circle-pause"></i></div><h3 class="card-title">6. BondPause</h3><p class="card-desc">Panduan relaksasi dan penenang pikiran saat menghadapi penat.</p></div>
+            </div>
+        </section>
+
+        <!-- 5. DOWNLOAD SECTION -->
+        <section id="sec-download" class="page-section">
+            <div class="card" style="text-align:center; max-width:600px; margin: 0 auto; padding: 40px;">
+                <div class="icon-shape bg-amber" style="width:64px; height:64px; margin: 0 auto 16px auto; font-size: 28px;">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                </div>
+                <h1 class="hero-title" style="font-size:32px;">Unduh BONDLY APK</h1>
+                <p class="hero-desc">Unduh installer resmi aplikasi BONDLY (.APK) untuk perangkat Android.</p>
+                <div style="background:var(--bg-buttercream-light); padding: 20px; border-radius:16px; margin-bottom:20px;">
+                    <h3 class="card-title">BONDLY Android Edition</h3>
+                    <p class="card-desc">Build: v2.4.0 (Official Stable) • Ukuran: 32 MB • Support: Android 7.0+</p>
+                </div>
+                <button class="btn-primary" style="width:100%; justify-content:center;" onclick="alert('Pengunduhan BONDLY-v2.4.0.apk sedang diproses!')">
+                    <i class="fa-solid fa-download" style="color:var(--color-accent);"></i> UNDUH APK SEKARANG
+                </button>
+            </div>
+        </section>
+
+        <!-- 6. HELP & COMPLAINT SECTION -->
+        <section id="sec-help" class="page-section">
+            <div class="grid-2">
+                <div class="card">
+                    <h2 class="card-title" style="font-size:22px; display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+                        <i class="fa-brands fa-whatsapp" style="color:#10B981; font-size:28px;"></i> WhatsApp Support Desk
+                    </h2>
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <a href="https://wa.me/628983660588" target="_blank" class="card" style="padding:16px; background:#F0FDF4; display:flex; justify-content:space-between; align-items:center;">
+                            <span><strong>Support 1:</strong> +62 898 3660 588</span>
+                            <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#047857;"></i>
+                        </a>
+                        <a href="https://wa.me/6287722761749" target="_blank" class="card" style="padding:16px; background:#F0FDF4; display:flex; justify-content:space-between; align-items:center;">
+                            <span><strong>Support 2:</strong> +62 877 2276 1749</span>
+                            <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#047857;"></i>
+                        </a>
+                        <a href="https://wa.me/6285719207310" target="_blank" class="card" style="padding:16px; background:#F0FDF4; display:flex; justify-content:space-between; align-items:center;">
+                            <span><strong>Support 3:</strong> +62 857 1920 7310</span>
+                            <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#047857;"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title" style="font-size:20px; margin-bottom:16px;">Form Pengaduan BONDLY</h2>
+                    <form onsubmit="alert('Pengaduan berhasil dikirim ke Tim BONDLY!'); return false;">
+                        <div class="form-group">
+                            <label class="form-label">Nama / Panggilan</label>
+                            <input type="text" class="form-control" required="" placeholder="Masukkan nama...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Kategori Kendala</label>
+                            <select class="form-control" required="">
+                                <option value="">Pilih Kategori</option>
+                                <option value="technical">Kendala Teknis / APK</option>
+                                <option value="privacy">Keamanan Data</option>
+                                <option value="feedback">Saran &amp; Masukan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Pesan Laporan</label>
+                            <textarea rows="3" class="form-control" required="" placeholder="Tuliskan pesan kamu..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width:100%; justify-content:center;">Kirim Pengaduan</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="brand">
+                    <div class="brand-logo">
+                        <svg viewBox="0 0 100 100">
+                            <ellipse cx="50" cy="55" rx="35" ry="30" fill="#FFFFFF" stroke="#5E442E" stroke-width="4"></ellipse>
+                            <circle cx="38" cy="50" r="3.5" fill="#5E442E"></circle>
+                            <circle cx="62" cy="50" r="3.5" fill="#5E442E"></circle>
+                            <path d="M 45 58 Q 50 62 55 58" fill="transparent" stroke="#5E442E" stroke-width="3.5" stroke-linecap="round"></path>
+                            <path d="M 20 48 C 15 35 30 25 50 28 C 70 25 85 35 80 48" fill="#FCD34D" stroke="#5E442E" stroke-width="3"></path>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <h1>BONDLY</h1>
+                        <span>Teman Setia, Langkah Lebih Kuat ♡</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://wa.me/628983660588" target="_blank" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://instagram.com" target="_blank" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="mailto:support@bondly.app" class="social-btn"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:24px; font-size:12px; color:var(--color-walnut-light);">
+                © 2026 BONDLY Research Team. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT CONTROLLER -->
+    <script>
+        function navigateTo(targetId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            const targetSection = document.getElementById(`sec-${targetId}`);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-target') === targetId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            closeSidebar();
+        }
+
+        function openSidebar() {
+            document.getElementById('mobileSidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('active');
+        }
+
+        function closeSidebar() {
+            document.getElementById('mobileSidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+        }
+    </script>
+
+</body></html>
